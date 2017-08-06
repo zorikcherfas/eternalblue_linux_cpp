@@ -12,6 +12,7 @@
 		65D9647E1F378F8700BD8DE7 /* Frame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65D9647C1F378F8700BD8DE7 /* Frame.cpp */; };
 		65D964811F37903200BD8DE7 /* Scanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65D9647F1F37903200BD8DE7 /* Scanner.cpp */; };
 		65D964841F37907D00BD8DE7 /* Payload.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65D964821F37907D00BD8DE7 /* Payload.cpp */; };
+		65D964881F37A46D00BD8DE7 /* smbHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65D964861F37A46D00BD8DE7 /* smbHeader.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -37,6 +38,8 @@
 		65D964801F37903200BD8DE7 /* Scanner.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Scanner.hpp; sourceTree = "<group>"; };
 		65D964821F37907D00BD8DE7 /* Payload.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Payload.cpp; sourceTree = "<group>"; };
 		65D964831F37907D00BD8DE7 /* Payload.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Payload.hpp; sourceTree = "<group>"; };
+		65D964861F37A46D00BD8DE7 /* smbHeader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = smbHeader.cpp; sourceTree = "<group>"; };
+		65D964871F37A46D00BD8DE7 /* smbHeader.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = smbHeader.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +72,7 @@
 		65D964711F378EF600BD8DE7 /* eternalblue_poc */ = {
 			isa = PBXGroup;
 			children = (
+				65D964851F37A44B00BD8DE7 /* appHeaders */,
 				65D964721F378EF600BD8DE7 /* main.cpp */,
 				65D964791F378F3300BD8DE7 /* packetDriver.cpp */,
 				65D9647A1F378F3300BD8DE7 /* packetDriver.hpp */,
@@ -80,6 +84,15 @@
 				65D964831F37907D00BD8DE7 /* Payload.hpp */,
 			);
 			path = eternalblue_poc;
+			sourceTree = "<group>";
+		};
+		65D964851F37A44B00BD8DE7 /* appHeaders */ = {
+			isa = PBXGroup;
+			children = (
+				65D964861F37A46D00BD8DE7 /* smbHeader.cpp */,
+				65D964871F37A46D00BD8DE7 /* smbHeader.hpp */,
+			);
+			name = appHeaders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -144,6 +157,7 @@
 				65D964811F37903200BD8DE7 /* Scanner.cpp in Sources */,
 				65D964841F37907D00BD8DE7 /* Payload.cpp in Sources */,
 				65D9647B1F378F3300BD8DE7 /* packetDriver.cpp in Sources */,
+				65D964881F37A46D00BD8DE7 /* smbHeader.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
