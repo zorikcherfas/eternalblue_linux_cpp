@@ -7,7 +7,7 @@
 //
 
 #include "packetDriver.hpp"
-
+#include "smbHeader.hpp"
 
 bool PacketDriver::createSocket(Protocol protocol){
     
@@ -57,16 +57,26 @@ bool PacketDriver::connectSocket(){
     return  true;
 }
 
+
+
 bool PacketDriver::communicateSocket(){
     
     //keep communicating with server
-    while(1)
+    smb_conn smb;
+    smb_header smb_h ;
+    
+    this->m_smbConnectionHandler = new SMB(m_sock);
+    printf("sizeof smb_conn: %d\n",sizeof(smb_conn));
+    printf("sizeof smb_header: %d\n",sizeof(smb_header));
+
+    m_smbConnectionHandler->smb_send_negotiate();
+    while(0)
     {
         printf("Enter message : ");
-        scanf("%s" , m_message);
+     //   scanf("%s" , m_message);
         
         //Send some data
-        if( send(m_sock , m_message , strlen(m_message) , 0) < 0)
+        if( send(m_sock , &smb_h , sizeof(smb_h) , 0) < 0)
         {
             puts("Send failed");
             return false;
@@ -85,6 +95,21 @@ bool PacketDriver::communicateSocket(){
     return true;
 }
 
+//void PacketDriver:: stateMachine()
+//{
+//    while(true)
+//    {
+//        if(m_smbConnectionHandler->m_state == smb_conn_state::SMB_NOT_CONNECTED)
+//        {
+//            
+//        }
+//        
+//        if(m_smbConnectionHandler->m_state == smb_conn_state::SMB_CONNECTING)
+//        {
+//            
+//        }
+//    }
+//}
 void PacketDriver::closeSocket(){
     
     if(m_sock){

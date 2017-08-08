@@ -16,7 +16,7 @@
 #include<arpa/inet.h> //inet_addr
 #include<unistd.h>    //write
 #include<pthread.h> //for threading , link with lpthread
-
+#include "smbHeader.hpp"
 enum Protocol{
     PROTOCOL_NONE,
     PROTOCOL_UDP,
@@ -27,6 +27,7 @@ class PacketDriver{
     
     int m_port;
     int m_sock;
+    SMB *m_smbConnectionHandler;
     Protocol m_protocol;
     char m_ipAddress[INET_ADDRSTRLEN];
     struct sockaddr_in m_server;

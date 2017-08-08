@@ -15,8 +15,10 @@ int main(int argc, const char * argv[]) {
 
     PacketDriver *pPacketDriver = new PacketDriver();
     pPacketDriver->setDestPort(445);
-    pPacketDriver->setIpAddress("10.0.2.15");
-    pPacketDriver->createSocket(Protocol::PROTOCOL_UDP);
+//    pPacketDriver->setIpAddress("10.0.2.15");
+    pPacketDriver->setIpAddress("10.0.0.13");
+
+    pPacketDriver->createSocket(Protocol::PROTOCOL_TCP);
     
     
     pPacketDriver->connectSocket();
