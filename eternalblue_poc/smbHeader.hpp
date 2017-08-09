@@ -24,34 +24,6 @@ enum smb_conn_state {
     SMB_CONNECTED
 };
 
-class SMB{
-public:
-    int m_socket;
-    smb_conn_state m_state;
-    char m_uploadbuffer[UPLOAD_BUFSIZE+1];
-    char m_downloadbuffer[UPLOAD_BUFSIZE+1];
-
-    SMB(int socket){
-        m_socket = socket;
-        m_state = smb_conn_state::SMB_NOT_CONNECTED;
-        memset(this->m_downloadbuffer, 0, sizeof(this->m_downloadbuffer));
-        memset(this->m_uploadbuffer, 0, sizeof(this->m_uploadbuffer));
-    }
-    void setConnectionState(smb_conn_state newState){
-        m_state = newState;
-    }
-    
-    int smb_send_negotiate();
-    int smb_send_message(unsigned char cmd,
-                         const void *msg, size_t msg_len);
-    int smb_send(size_t len,
-                 size_t upload_size);
-    void smb_format_message( struct smb_header *h,
-                            unsigned char cmd, size_t len);
-};
-
-
-
 struct smb_conn {
     enum smb_conn_state state;
     char *user;
@@ -65,6 +37,48 @@ struct smb_conn {
     size_t sent;
     size_t got;
 };
+
+
+
+
+class SMB{
+public:
+    int m_socket;
+    struct smb_conn m_connection;
+    char m_uploadbuffer[UPLOAD_BUFSIZE+1];
+    char m_downloadbuffer[UPLOAD_BUFSIZE+1];
+
+    SMB(int socket){
+        m_socket = socket;
+        memset(this->m_downloadbuffer, 0, sizeof(this->m_downloadbuffer));
+        memset(this->m_uploadbuffer, 0, sizeof(this->m_uploadbuffer));
+        memset(&this->m_connection, 0, sizeof(this->m_connection));
+        
+        this->initDefaultConnectionState();
+
+    }
+    
+    void initDefaultConnectionState(){
+        this->m_connection.state = smb_conn_state::SMB_NOT_CONNECTED;
+    }
+    
+    void setConnectionState(smb_conn_state newState){
+        this->m_connection.state = newState;
+    }
+    smb_conn_state getConnectionState(){
+        return this->m_connection.state;
+    }
+    
+    int smb_send_negotiate();
+    int smb_send_message(unsigned char cmd,
+                         const void *msg, size_t msg_len);
+    int smb_send(size_t len,
+                 size_t upload_size);
+    void smb_format_message( struct smb_header *h,
+                            unsigned char cmd, size_t len);
+};
+
+
 
 
 struct __attribute__((__packed__)) smb_header {

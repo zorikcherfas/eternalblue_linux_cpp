@@ -94,7 +94,6 @@ void SMB::smb_format_message( struct smb_header *h,
                     size_t upload_size)
 {
     printf("buffer is %s\n",m_uploadbuffer);
-    struct smb_conn *smbc;// = &conn->proto.smbc;
     ssize_t bytes_written;
     bytes_written = send(m_socket , m_uploadbuffer,
                         len, 0);
@@ -102,10 +101,10 @@ void SMB::smb_format_message( struct smb_header *h,
     if(bytes_written)
         return bytes_written;
     if(bytes_written != len) {
-        smbc->send_size = len;
-        smbc->sent = bytes_written;
+        this->m_connection.send_size = len;
+        this->m_connection.sent = bytes_written;
     }
-    smbc->upload_size = upload_size;
+   this->m_connection.upload_size = upload_size;
     return true;
 }
 
