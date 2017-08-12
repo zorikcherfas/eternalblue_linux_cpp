@@ -95,21 +95,52 @@ bool PacketDriver::communicateSocket(){
     return true;
 }
 
-//void PacketDriver:: stateMachine()
-//{
-//    while(true)
-//    {
-//        if(m_smbConnectionHandler->m_state == smb_conn_state::SMB_NOT_CONNECTED)
-//        {
-//            
-//        }
-//        
-//        if(m_smbConnectionHandler->m_state == smb_conn_state::SMB_CONNECTING)
-//        {
-//            
-//        }
-//    }
-//}
+bool PacketDriver:: stateMachine()
+{
+    int bytes_written;
+    void *msg = NULL;
+    int numberOfRetries = 0;
+    const int MAX_NUMBER_OF_RETRIES = 5;
+    m_smbConnectionHandler = new SMB(m_sock);
+    while(true)
+    {
+        if(numberOfRetries > MAX_NUMBER_OF_RETRIES)
+            return false;
+        
+        if(m_smbConnectionHandler->getConnectionState() == smb_conn_state::SMB_NOT_CONNECTED)
+        {
+            bytes_written = m_smbConnectionHandler->smb_send_negotiate();
+            if(bytes_written == 0){
+                printf("error: falied to communicate\n");
+                numberOfRetries++;
+                continue;
+            }
+            
+            if(m_smbConnectionHandler->smb_send_and_recv() == 0)
+            {
+                printf("error: falied to recevice message\n");
+                numberOfRetries++;
+                continue;
+
+            }
+            else{
+                struct smb_header *h;
+                
+
+            }
+            
+            numberOfRetries = 0;
+
+        }
+        
+        if(m_smbConnectionHandler->getConnectionState() == smb_conn_state::SMB_NEGOTIATE)
+        {
+            m_smbConnectionHandler->smb_send_and_recv();
+        }
+    }
+    
+    return  true;
+}
 void PacketDriver::closeSocket(){
     
     if(m_sock){

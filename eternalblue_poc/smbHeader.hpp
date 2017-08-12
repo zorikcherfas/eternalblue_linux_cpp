@@ -15,7 +15,8 @@
 #include <cstring>
 
 #define UPLOAD_BUFSIZE 400
-
+#define BUFSIZE 400
+#define MAX_MESSAGE_SIZE 400
 enum smb_conn_state {
     SMB_NOT_CONNECTED = 0,
     SMB_CONNECTING,
@@ -70,12 +71,19 @@ public:
     }
     
     int smb_send_negotiate();
+    int smb_send_and_recv();
+    
+private:
     int smb_send_message(unsigned char cmd,
                          const void *msg, size_t msg_len);
     int smb_send(size_t len,
                  size_t upload_size);
     void smb_format_message( struct smb_header *h,
                             unsigned char cmd, size_t len);
+    
+    int smb_recv_message(void **msg);
+    
+    void printWorkGroup(struct smb_negotiate_response *h);
 };
 
 
@@ -99,6 +107,24 @@ struct __attribute__((__packed__)) smb_header {
     unsigned short mid;
 } ;
 
+struct __attribute__ ((__packed__)) smb_negotiate_response  {
+    struct smb_header h;
+    unsigned char word_count;
+    unsigned short dialect_index;
+    unsigned char security_mode;
+    unsigned short max_mpx_count;
+    unsigned short max_number_vcs;
+    unsigned int max_buffer_size;
+    unsigned int max_raw_size;
+    unsigned int session_key;
+    unsigned int capabilities;
+    unsigned int system_time_low;
+    unsigned int system_time_high;
+    unsigned short server_time_zone;
+    unsigned char encryption_key_length;
+    unsigned short byte_count;
+    char bytes[1];
+};
 
 #define SMB_COM_CLOSE                 0x04
 #define SMB_COM_READ_ANDX             0x2e
@@ -151,24 +177,7 @@ struct __attribute__((__packed__)) smb_header {
 
 
 
-struct smb_negotiate_response {
-    struct smb_header h;
-    unsigned char word_count;
-    unsigned short dialect_index;
-    unsigned char security_mode;
-    unsigned short max_mpx_count;
-    unsigned short max_number_vcs;
-    unsigned int max_buffer_size;
-    unsigned int max_raw_size;
-    unsigned int session_key;
-    unsigned int capabilities;
-    unsigned int system_time_low;
-    unsigned int system_time_high;
-    unsigned short server_time_zone;
-    unsigned char encryption_key_length;
-    unsigned short byte_count;
-    char bytes[1];
-} PACK;
+
 
 struct andx {
     unsigned char command;

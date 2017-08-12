@@ -53,6 +53,7 @@ public:
     bool connectSocket();
     bool communicateSocket();
     void closeSocket();
+    bool stateMachine();
     
 };
 

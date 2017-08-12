@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "SMB::smb_format_message(smb_header*, unsigned char, unsigned long):smbHeader.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "SMB::smb_send(int, char*, unsigned long, unsigned long):smbHeader.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "SMB::smb_send_and_recv():smbHeader.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "h1+50">
+            </PersistentString>
+            <PersistentString
+               value = "h1">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "SMB::smb_send(int, long, unsigned long):smbHeader.cpp">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
