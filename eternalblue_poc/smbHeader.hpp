@@ -55,8 +55,21 @@ public:
         memset(this->m_uploadbuffer, 0, sizeof(this->m_uploadbuffer));
         memset(&this->m_connection, 0, sizeof(this->m_connection));
         
+        this->m_connection.user = strdup("zorik");
+        this->m_connection.domain = strdup("someDomain");
         this->initDefaultConnectionState();
 
+    }
+    ~SMB(){
+        
+        if(this->m_connection.user)
+            delete(this->m_connection.user);
+        
+        if(this->m_connection.domain)
+            delete(this->m_connection.domain);
+        
+        if(m_socket)
+            close(m_socket);
     }
     
     void initDefaultConnectionState(){
@@ -72,6 +85,8 @@ public:
     
     int smb_send_negotiate();
     int smb_send_and_recv();
+    int smb_send_setup();
+
     
 private:
     int smb_send_message(unsigned char cmd,
@@ -80,7 +95,7 @@ private:
                  size_t upload_size);
     void smb_format_message( struct smb_header *h,
                             unsigned char cmd, size_t len);
-    
+    bool smb_format_setup(struct smb_setup *msg);
     int smb_recv_message(void **msg);
     
     void printWorkGroup(struct smb_negotiate_response *h);
@@ -125,6 +140,27 @@ struct __attribute__ ((__packed__)) smb_negotiate_response  {
     unsigned short byte_count;
     char bytes[1];
 };
+
+
+struct __attribute__ ((__packed__)) andx {
+    unsigned char command;
+    unsigned char pad;
+    unsigned short offset;
+} ;
+
+struct __attribute__ ((__packed__)) smb_setup {
+    unsigned char word_count;
+    struct andx andx;
+    unsigned short max_buffer_size;
+    unsigned short max_mpx_count;
+    unsigned short vc_number;
+    unsigned int session_key;
+    unsigned short lengths[2];
+    unsigned int pad;
+    unsigned int capabilities;
+    unsigned short byte_count;
+    char bytes[1024];
+} ;
 
 #define SMB_COM_CLOSE                 0x04
 #define SMB_COM_READ_ANDX             0x2e
@@ -179,25 +215,7 @@ struct __attribute__ ((__packed__)) smb_negotiate_response  {
 
 
 
-struct andx {
-    unsigned char command;
-    unsigned char pad;
-    unsigned short offset;
-} PACK;
 
-struct smb_setup {
-    unsigned char word_count;
-    struct andx andx;
-    unsigned short max_buffer_size;
-    unsigned short max_mpx_count;
-    unsigned short vc_number;
-    unsigned int session_key;
-    unsigned short lengths[2];
-    unsigned int pad;
-    unsigned int capabilities;
-    unsigned short byte_count;
-    char bytes[1024];
-} PACK;
 
 struct smb_tree_connect {
     unsigned char word_count;

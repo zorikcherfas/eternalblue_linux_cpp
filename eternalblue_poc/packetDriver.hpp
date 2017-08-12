@@ -54,6 +54,7 @@ public:
     bool communicateSocket();
     void closeSocket();
     bool stateMachine();
+    void updateConnectionStateToNewState();
     
 };
 

@@ -14,9 +14,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "71"
-            endingLineNumber = "71"
-            landmarkName = "PacketDriver::communicateSocket()"
-            landmarkType = "7">
+            endingLineNumber = "71">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -46,9 +44,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "72"
-            endingLineNumber = "72"
-            landmarkName = "PacketDriver::communicateSocket()"
-            landmarkType = "7">
+            endingLineNumber = "72">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -58,11 +54,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "eternalblue_poc/smbHeader.cpp"
-            timestampString = "524221180.645089"
+            timestampString = "524262470.650341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "173"
-            endingLineNumber = "173"
+            startingLineNumber = "224"
+            endingLineNumber = "224"
             landmarkName = "SMB::smb_send_negotiate()"
             landmarkType = "7">
          </BreakpointContent>
@@ -74,11 +70,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "eternalblue_poc/smbHeader.cpp"
-            timestampString = "524221180.645089"
+            timestampString = "524262470.650341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "123"
-            endingLineNumber = "123"
+            startingLineNumber = "172"
+            endingLineNumber = "172"
             landmarkName = "SMB::smb_send_message(unsigned char cmd, const void *msg, size_t msg_len)"
             landmarkType = "7">
          </BreakpointContent>
@@ -90,11 +86,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "eternalblue_poc/smbHeader.cpp"
-            timestampString = "524221180.645089"
+            timestampString = "524262470.650341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "100"
-            endingLineNumber = "100"
+            startingLineNumber = "147"
+            endingLineNumber = "147"
             landmarkName = "SMB::smb_send(size_t len, size_t upload_size)"
             landmarkType = "7">
          </BreakpointContent>
@@ -110,9 +106,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "68"
-            endingLineNumber = "68"
-            landmarkName = "PacketDriver::communicateSocket()"
-            landmarkType = "7">
+            endingLineNumber = "68">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -122,11 +116,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "eternalblue_poc/packetDriver.cpp"
-            timestampString = "524168734.447946"
+            timestampString = "524259920.454501"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "107"
-            endingLineNumber = "107"
+            startingLineNumber = "111"
+            endingLineNumber = "111"
             landmarkName = "PacketDriver:: stateMachine()"
             landmarkType = "7">
          </BreakpointContent>
@@ -138,11 +132,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "eternalblue_poc/packetDriver.cpp"
-            timestampString = "524168734.447946"
+            timestampString = "524259920.454501"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
             landmarkName = "PacketDriver:: stateMachine()"
             landmarkType = "7">
          </BreakpointContent>
@@ -154,11 +148,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "eternalblue_poc/packetDriver.cpp"
-            timestampString = "524207930.948703"
+            timestampString = "524259920.454501"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
+            startingLineNumber = "152"
+            endingLineNumber = "152"
             landmarkName = "PacketDriver:: stateMachine()"
             landmarkType = "7">
          </BreakpointContent>
@@ -170,11 +164,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "eternalblue_poc/packetDriver.cpp"
-            timestampString = "524168734.447946"
+            timestampString = "524259920.454501"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "112"
-            endingLineNumber = "112"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
             landmarkName = "PacketDriver:: stateMachine()"
             landmarkType = "7">
          </BreakpointContent>
@@ -186,11 +180,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "eternalblue_poc/smbHeader.hpp"
-            timestampString = "524168489.845521"
+            timestampString = "524262221.010158"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "70"
-            endingLineNumber = "70"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
             landmarkName = "getConnectionState()"
             landmarkType = "7">
          </BreakpointContent>
@@ -202,11 +196,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "eternalblue_poc/packetDriver.cpp"
-            timestampString = "524169387.215801"
+            timestampString = "524259920.454501"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "119"
-            endingLineNumber = "119"
+            startingLineNumber = "135"
+            endingLineNumber = "135"
             landmarkName = "PacketDriver:: stateMachine()"
             landmarkType = "7">
          </BreakpointContent>
@@ -218,11 +212,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "eternalblue_poc/smbHeader.cpp"
-            timestampString = "524221180.645089"
+            timestampString = "524262470.650341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "138"
-            endingLineNumber = "138"
+            startingLineNumber = "188"
+            endingLineNumber = "188"
             landmarkName = "SMB:: smb_recv_message(void **msg)"
             landmarkType = "7">
          </BreakpointContent>
@@ -234,11 +228,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "eternalblue_poc/smbHeader.cpp"
-            timestampString = "524221180.645089"
+            timestampString = "524264381.053832"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "204"
-            endingLineNumber = "204"
+            startingLineNumber = "270"
+            endingLineNumber = "270"
             landmarkName = "SMB::smb_send_and_recv()"
             landmarkType = "7">
          </BreakpointContent>
@@ -250,11 +244,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "eternalblue_poc/smbHeader.cpp"
-            timestampString = "524221180.645089"
+            timestampString = "524264381.053832"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "201"
-            endingLineNumber = "201"
+            startingLineNumber = "267"
+            endingLineNumber = "267"
             landmarkName = "SMB::smb_send_and_recv()"
             landmarkType = "7">
          </BreakpointContent>
@@ -266,12 +260,172 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "eternalblue_poc/smbHeader.cpp"
-            timestampString = "524221180.645089"
+            timestampString = "524264381.053832"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
+            startingLineNumber = "289"
+            endingLineNumber = "289"
             landmarkName = "SMB::printWorkGroup(struct smb_negotiate_response *h)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "eternalblue_poc/smbHeader.cpp"
+            timestampString = "524264381.053832"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "263"
+            endingLineNumber = "263"
+            landmarkName = "SMB::smb_send_and_recv()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "eternalblue_poc/packetDriver.cpp"
+            timestampString = "524259920.454501"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
+            landmarkName = "PacketDriver::updateConnectionStateToNewState()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "eternalblue_poc/packetDriver.cpp"
+            timestampString = "524259920.454501"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
+            landmarkName = "PacketDriver:: stateMachine()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "eternalblue_poc/packetDriver.cpp"
+            timestampString = "524258661.490426"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "101"
+            endingLineNumber = "101"
+            landmarkName = "PacketDriver:: stateMachine()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "eternalblue_poc/packetDriver.cpp"
+            timestampString = "524259920.454501"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
+            landmarkName = "PacketDriver:: stateMachine()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "eternalblue_poc/packetDriver.cpp"
+            timestampString = "524259528.035341"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "PacketDriver::connectSocket()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "eternalblue_poc/smbHeader.cpp"
+            timestampString = "524262470.650341"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
+            landmarkName = "SMB::smb_send_negotiate()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "eternalblue_poc/smbHeader.cpp"
+            timestampString = "524264381.053832"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "251"
+            endingLineNumber = "251"
+            landmarkName = "SMB:: smb_send_setup()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "eternalblue_poc/smbHeader.cpp"
+            timestampString = "524262431.590405"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
+            landmarkName = "SMB::smb_format_setup(struct smb_setup *setup)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "eternalblue_poc/smbHeader.cpp"
+            timestampString = "524264381.053832"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "258"
+            endingLineNumber = "258"
+            landmarkName = "SMB:: smb_send_setup()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

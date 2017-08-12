@@ -59,41 +59,41 @@ bool PacketDriver::connectSocket(){
 
 
 
-bool PacketDriver::communicateSocket(){
-    
-    //keep communicating with server
-    smb_conn smb;
-    smb_header smb_h ;
-    
-    this->m_smbConnectionHandler = new SMB(m_sock);
-    printf("sizeof smb_conn: %d\n",sizeof(smb_conn));
-    printf("sizeof smb_header: %d\n",sizeof(smb_header));
-
-    m_smbConnectionHandler->smb_send_negotiate();
-    while(0)
-    {
-        printf("Enter message : ");
-     //   scanf("%s" , m_message);
-        
-        //Send some data
-        if( send(m_sock , &smb_h , sizeof(smb_h) , 0) < 0)
-        {
-            puts("Send failed");
-            return false;
-        }
-        
-        //Receive a reply from the server
-        if( recv(m_sock , m_server_reply , 2000 , 0) < 0)
-        {
-            puts("recv failed");
-            break;
-        }
-        
-        puts("Server reply :");
-        puts(m_server_reply);
-    }
-    return true;
-}
+//bool PacketDriver::communicateSocket(){
+//    
+//    //keep communicating with server
+//    smb_conn smb;
+//    smb_header smb_h ;
+//    
+//    this->m_smbConnectionHandler = new SMB(m_sock);
+//    printf("sizeof smb_conn: %d\n",sizeof(smb_conn));
+//    printf("sizeof smb_header: %d\n",sizeof(smb_header));
+//
+//    m_smbConnectionHandler->smb_send_negotiate();
+//    while(0)
+//    {
+//        printf("Enter message : ");
+//     //   scanf("%s" , m_message);
+//        
+//        //Send some data
+//        if( send(m_sock , &smb_h , sizeof(smb_h) , 0) < 0)
+//        {
+//            puts("Send failed");
+//            return false;
+//        }
+//        
+//        //Receive a reply from the server
+//        if( recv(m_sock , m_server_reply , 2000 , 0) < 0)
+//        {
+//            puts("recv failed");
+//            break;
+//        }
+//        
+//        puts("Server reply :");
+//        puts(m_server_reply);
+//    }
+//    return true;
+//}
 
 bool PacketDriver:: stateMachine()
 {
@@ -102,12 +102,28 @@ bool PacketDriver:: stateMachine()
     int numberOfRetries = 0;
     const int MAX_NUMBER_OF_RETRIES = 5;
     m_smbConnectionHandler = new SMB(m_sock);
+    
+    if(m_smbConnectionHandler)
+        m_smbConnectionHandler->setConnectionState(smb_conn_state::SMB_CONNECTING);
+    
     while(true)
     {
         if(numberOfRetries > MAX_NUMBER_OF_RETRIES)
             return false;
         
-        if(m_smbConnectionHandler->getConnectionState() == smb_conn_state::SMB_NOT_CONNECTED)
+        if(m_smbConnectionHandler->getConnectionState() == smb_conn_state::SMB_CONNECTING)
+        {
+            if(this->connectSocket()){
+                this->updateConnectionStateToNewState();
+            }
+            else{
+                numberOfRetries++;
+                continue;
+            }
+
+        }
+        
+        if(m_smbConnectionHandler->getConnectionState() == smb_conn_state::SMB_NEGOTIATE)
         {
             bytes_written = m_smbConnectionHandler->smb_send_negotiate();
             if(bytes_written == 0){
@@ -123,28 +139,56 @@ bool PacketDriver:: stateMachine()
                 continue;
 
             }
-            else{
-                struct smb_header *h;
-                
+            else
+            {
+                /* all good */
+                this->updateConnectionStateToNewState();
+                continue;
 
             }
-            
-            numberOfRetries = 0;
 
         }
         
-        if(m_smbConnectionHandler->getConnectionState() == smb_conn_state::SMB_NEGOTIATE)
+        if(m_smbConnectionHandler->getConnectionState() == smb_conn_state::SMB_SETUP)
         {
-            m_smbConnectionHandler->smb_send_and_recv();
+            m_smbConnectionHandler->smb_send_setup();
         }
+        
+        
     }
     
     return  true;
 }
+
 void PacketDriver::closeSocket(){
     
     if(m_sock){
         close(m_sock);
     }
     
+}
+
+void PacketDriver::updateConnectionStateToNewState(){
+    
+    switch (this->m_smbConnectionHandler->getConnectionState()) {
+        case SMB_NOT_CONNECTED:
+            printf("connection state machine: old state: SMB_NOT_CONNECTED | new state: SMB_CONNECTING\n");
+            this->m_smbConnectionHandler->setConnectionState(smb_conn_state::SMB_CONNECTING);
+            break;
+        case SMB_CONNECTING:
+            printf("connection state machine: old state: SMB_CONNECTING | new state: SMB_CONNECTED\n");
+            this->m_smbConnectionHandler->setConnectionState(smb_conn_state::SMB_CONNECTED);
+        case SMB_CONNECTED:
+            printf("connection state machine: old state: SMB_CONNECTED | new state: SMB_NEGOTIATE\n");
+            this->m_smbConnectionHandler->setConnectionState(smb_conn_state::SMB_NEGOTIATE);
+            break;
+        case SMB_NEGOTIATE:
+            printf("connection state machine: old state: SMB_NEGOTIATE | new state: SMB_SETUP\n");
+            this->m_smbConnectionHandler->setConnectionState(smb_conn_state::SMB_SETUP);
+            break;
+        
+
+        default:
+            break;
+    }
 }

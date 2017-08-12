@@ -91,6 +91,49 @@ void SMB::smb_format_message( struct smb_header *h,
 }
 
 
+#define CLIENTNAME "zorik"
+#define OS "Windows"
+
+bool SMB::smb_format_setup(struct smb_setup *setup)
+{
+    
+    memset(setup, 0 , sizeof(struct smb_setup));
+    char *p = setup->bytes;
+    unsigned char lm_hash[21];
+    unsigned char lm[24];
+    unsigned char nt_hash[21];
+    unsigned char nt[24];
+    size_t byte_count = sizeof(lm) + sizeof(nt);
+    byte_count += strlen(this->m_connection.user) + strlen(this->m_connection.domain);
+    byte_count += strlen(OS) + strlen(CLIENTNAME) + 4; /* 4 null chars */
+    if(byte_count > sizeof(setup->bytes))
+        return false;
+//    Curl_ntlm_core_mk_lm_hash(conn->data, conn->passwd, lm_hash);
+//    Curl_ntlm_core_lm_resp(lm_hash, smbc->challenge, lm);
+
+    memset(nt, 0, sizeof(nt));
+    setup->word_count = SMB_WC_SETUP_ANDX;
+    setup->andx.command = SMB_COM_NO_ANDX_COMMAND;
+    setup->max_buffer_size = smb_swap16(MAX_MESSAGE_SIZE);
+    setup->max_mpx_count = smb_swap16(1);
+    setup->vc_number = smb_swap16(1);
+    setup->session_key = smb_swap32(this->m_connection.session_key);
+    setup->capabilities = smb_swap32(SMB_CAP_LARGE_FILES);
+    setup->lengths[0] = smb_swap16(sizeof(lm));
+    setup->lengths[1] = smb_swap16(sizeof(nt));
+    memcpy(p, lm, sizeof(lm));
+    p += sizeof(lm);
+    memcpy(p, nt, sizeof(nt));
+    p += sizeof(nt);
+
+    byte_count = p - setup->bytes;
+    setup->byte_count = smb_swap16((unsigned short)byte_count);
+//    return smb_send_message(conn, SMB_COM_SETUP_ANDX, &msg,
+//                            sizeof(msg) - sizeof(msg.bytes) + byte_count);
+    
+    
+    return true;
+}
 
 
  int SMB::smb_send(size_t len,
@@ -101,26 +144,29 @@ void SMB::smb_format_message( struct smb_header *h,
                         len, 0);
     
     if(bytes_written)
-        return bytes_written;
-    if(bytes_written != len) {
+    {
         this->m_connection.send_size = len;
         this->m_connection.sent = bytes_written;
+        this->m_connection.upload_size = upload_size;
+
+        return bytes_written;
     }
-   this->m_connection.upload_size = upload_size;
-    return true;
+  
+    return false;
 }
 
 int SMB::smb_send_message(unsigned char cmd,
                                  const void *msg, size_t msg_len)
 {
     
-    smb_format_message((struct smb_header *)m_uploadbuffer,
-                       cmd, msg_len);
-    memcpy(m_uploadbuffer + sizeof(struct smb_header),
-           msg, msg_len);
-    
-
-    return smb_send(sizeof(struct smb_header) + msg_len, 0);
+//    smb_format_message((struct smb_header *)m_uploadbuffer,
+//                       cmd, msg_len);
+//    memcpy(m_uploadbuffer + sizeof(struct smb_header),
+//           msg, msg_len);
+//    
+//
+//    return smb_send(sizeof(struct smb_header) + msg_len, 0);
+    return 1;
 }
 
 
@@ -170,47 +216,67 @@ int SMB:: smb_recv_message(void **msg)
  int SMB::smb_send_negotiate()
 {
     const char *msg = "\x00\x0c\x00\x02NT LM 0.12";
-    return smb_send_message(SMB_COM_NEGOTIATE, msg, 15);
+//    return smb_send_message(SMB_COM_NEGOTIATE, msg, 15);
+    
+    struct smb_header h;
+    smb_format_message(&h,
+                       SMB_COM_NEGOTIATE, 15);
+    
+    memcpy(m_uploadbuffer,&h, sizeof(smb_header));
+    memcpy(m_uploadbuffer + sizeof(struct smb_header),
+           msg, 15);
+    
+    return smb_send(sizeof(struct smb_header) + 15, 0);
+
+
+}
+
+int SMB:: smb_send_setup(){
+    
+//    const char *msg = "\x00\x0c\x00\x02NT LM 0.12";
+    //    return smb_send_message(SMB_COM_NEGOTIATE, msg, 15);
+    
+    struct smb_header h;
+    struct smb_setup setup;
+    
+    smb_format_message(&h,
+                       SMB_COM_SETUP_ANDX, sizeof( smb_header)+ sizeof( smb_setup));
+    printf("size of smb_header: %d\n", sizeof(smb_header));
+    printf("size of smb_setup: %d\n", sizeof(smb_setup));
+
+    smb_format_setup(&setup);
+    
+    memcpy(m_uploadbuffer,&h, sizeof(smb_header));
+//    memcpy(m_uploadbuffer + sizeof(struct smb_header),
+//           msg, 15);
+    memcpy( m_uploadbuffer + sizeof(smb_header), &setup, sizeof(smb_setup));
+    
+    return smb_send(sizeof(struct smb_header)+ sizeof(struct smb_setup), 0);
+    
+
 }
 int SMB::smb_send_and_recv(){
     void *msg = NULL;
-    struct smb_header *h;
-    struct smb_negotiate_response *h1;
+    struct smb_negotiate_response *h;
     int bytes_read;
-    struct smb_conn *smbc = &this->m_connection;//  &conn->proto.smbc;
-    char printTest[200];
-    /* Check if there is data in the transfer buffer */
-    int result;
-    if(!smbc->send_size && smbc->upload_size) {
-        int nread = smbc->upload_size > BUFSIZE ? BUFSIZE :
-        (int) smbc->upload_size;
-     
-        smbc->upload_size -= nread;
-        smbc->send_size = nread;
-        smbc->sent = 0;
-    }
-    /* Check if there is data to send */
-    if(smbc->send_size) {
-//        result = smb_flush(conn);
-        if(result)
-            return result;
-    }
-    /* Check if there is still data to be sent */
-    if(smbc->send_size || smbc->upload_size)
-        return 1;
-    bytes_read = smb_recv_message(&msg);
-    
-    h = (struct smb_header*)msg;
-    h1 = (struct smb_negotiate_response*)(msg);
 
-    printWorkGroup(h1);
+    bytes_read = smb_recv_message(&msg);
+    if(bytes_read)
+    {
+        h = (struct smb_negotiate_response*)(msg);
+    }
+    else
+    {
+        return -1;
+    }
+
+    if(h)
+    {
+//        printWorkGroup(h);
+        return 1;
+    }
     
-//    char *test = (char*)(h1)+bytes_read - h1->byte_count;
-//    h1 = (struct smb_negotiate_response*)(msg+ 32);
-    int maxBuffer_size = smb_swap16(h1->max_number_vcs);
-    
-    
-    return 1;
+    return -1;
 }
 
 
