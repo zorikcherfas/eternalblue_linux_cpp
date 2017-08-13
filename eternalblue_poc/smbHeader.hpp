@@ -14,7 +14,7 @@
 #include<unistd.h>    //write
 #include <cstring>
 
-#define UPLOAD_BUFSIZE 400
+#define UPLOAD_BUFSIZE 1400
 #define BUFSIZE 400
 #define MAX_MESSAGE_SIZE 400
 enum smb_conn_state {
@@ -159,7 +159,7 @@ struct __attribute__ ((__packed__)) smb_setup {
     unsigned int pad;
     unsigned int capabilities;
     unsigned short byte_count;
-    char bytes[1024];
+    char bytes[1200];
 } ;
 
 #define SMB_COM_CLOSE                 0x04

@@ -239,17 +239,18 @@ int SMB:: smb_send_setup(){
     struct smb_header h;
     struct smb_setup setup;
     
+    memset(&m_uploadbuffer, 0, sizeof(m_uploadbuffer));
     smb_format_message(&h,
-                       SMB_COM_SETUP_ANDX, sizeof( smb_header)+ sizeof( smb_setup));
+                       SMB_COM_SETUP_ANDX, sizeof(struct smb_setup));
     printf("size of smb_header: %d\n", sizeof(smb_header));
     printf("size of smb_setup: %d\n", sizeof(smb_setup));
 
     smb_format_setup(&setup);
     
-    memcpy(m_uploadbuffer,&h, sizeof(smb_header));
+    memcpy(m_uploadbuffer,&h, sizeof(struct smb_header));
 //    memcpy(m_uploadbuffer + sizeof(struct smb_header),
 //           msg, 15);
-    memcpy( m_uploadbuffer + sizeof(smb_header), &setup, sizeof(smb_setup));
+    memcpy( m_uploadbuffer + sizeof(struct smb_header), &setup, sizeof(struct smb_setup));
     
     return smb_send(sizeof(struct smb_header)+ sizeof(struct smb_setup), 0);
     

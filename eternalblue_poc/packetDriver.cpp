@@ -151,7 +151,16 @@ bool PacketDriver:: stateMachine()
         
         if(m_smbConnectionHandler->getConnectionState() == smb_conn_state::SMB_SETUP)
         {
-            m_smbConnectionHandler->smb_send_setup();
+            if(m_smbConnectionHandler->smb_send_setup())
+            {
+                this->updateConnectionStateToNewState();
+                continue;
+            }
+            else
+            {
+                numberOfRetries++;
+                continue;
+            }
         }
         
         
