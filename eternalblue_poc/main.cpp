@@ -6,6 +6,8 @@
 //  Copyright © 2017 Zorik Cherfas. All rights reserved.
 //
 
+#define WINDOWS_7_BRIDGE "192.168.56.101"
+
 #include <iostream>
 #include "packetDriver.hpp"
 int main(int argc, const char * argv[]) {
@@ -16,7 +18,7 @@ int main(int argc, const char * argv[]) {
     PacketDriver *pPacketDriver = new PacketDriver();
     pPacketDriver->setDestPort(445);
 //    pPacketDriver->setIpAddress("10.0.2.15");
-    pPacketDriver->setIpAddress("10.0.0.7");
+    pPacketDriver->setIpAddress((char*)WINDOWS_7_BRIDGE);
 
     pPacketDriver->createSocket(Protocol::PROTOCOL_TCP);
     

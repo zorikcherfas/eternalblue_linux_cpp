@@ -94,20 +94,33 @@ void SMB::smb_format_message( struct smb_header *h,
 #define CLIENTNAME "zorik"
 #define OS "Windows"
 
-bool SMB::smb_format_setup(struct smb_setup *setup)
+int SMB::smb_format_setup(struct smb_setup *setup)
 {
     
-    memset(setup, 0 , sizeof(struct smb_setup));
+    size_t totalLentgh = 0;
     char *p = setup->bytes;
     unsigned char lm_hash[21];
     unsigned char lm[24];
     unsigned char nt_hash[21];
     unsigned char nt[24];
+    
+    memset(setup, 0 , sizeof(struct smb_setup));
+    memset(&lm, 0 , sizeof(lm) );
+    memset(&lm, 0 , sizeof(lm) );
+
     size_t byte_count = sizeof(lm) + sizeof(nt);
     byte_count += strlen(this->m_connection.user) + strlen(this->m_connection.domain);
     byte_count += strlen(OS) + strlen(CLIENTNAME) + 4; /* 4 null chars */
     if(byte_count > sizeof(setup->bytes))
+    {
+        puts("CURLE_FILESIZE_EXCEEDED");
         return false;
+    }
+    
+    
+//    Curl_ntlm_core_mk_lm_hash(conn->data, conn->passwd, lm_hash);
+//    Curl_ntlm_core_lm_resp(lm_hash, smbc->challenge, lm);
+    
 //    Curl_ntlm_core_mk_lm_hash(conn->data, conn->passwd, lm_hash);
 //    Curl_ntlm_core_lm_resp(lm_hash, smbc->challenge, lm);
 
@@ -128,6 +141,11 @@ bool SMB::smb_format_setup(struct smb_setup *setup)
 
     byte_count = p - setup->bytes;
     setup->byte_count = smb_swap16((unsigned short)byte_count);
+    
+    
+    totalLentgh = sizeof(struct smb_setup) - sizeof(setup->bytes) + byte_count;
+    printf("setup size is %d\n",(int)totalLentgh );
+    return (int)totalLentgh;
 //    return smb_send_message(conn, SMB_COM_SETUP_ANDX, &msg,
 //                            sizeof(msg) - sizeof(msg.bytes) + byte_count);
     
@@ -233,27 +251,27 @@ int SMB:: smb_recv_message(void **msg)
 
 int SMB:: smb_send_setup(){
     
-//    const char *msg = "\x00\x0c\x00\x02NT LM 0.12";
-    //    return smb_send_message(SMB_COM_NEGOTIATE, msg, 15);
-    
+
     struct smb_header h;
     struct smb_setup setup;
+    int data_length;
     
     memset(&m_uploadbuffer, 0, sizeof(m_uploadbuffer));
-    smb_format_message(&h,
-                       SMB_COM_SETUP_ANDX, sizeof(struct smb_setup));
-    printf("size of smb_header: %d\n", sizeof(smb_header));
-    printf("size of smb_setup: %d\n", sizeof(smb_setup));
+   
+//    printf("size of smb_header: %d\n", sizeof(smb_header));
+//    printf("size of smb_setup: %d\n", sizeof(smb_setup));
 
-    smb_format_setup(&setup);
+    data_length = smb_format_setup(&setup);
+    smb_format_message(&h,
+                       SMB_COM_SETUP_ANDX, data_length + 4);
     
     memcpy(m_uploadbuffer,&h, sizeof(struct smb_header));
-//    memcpy(m_uploadbuffer + sizeof(struct smb_header),
-//           msg, 15);
     memcpy( m_uploadbuffer + sizeof(struct smb_header), &setup, sizeof(struct smb_setup));
-    
-    return smb_send(sizeof(struct smb_header)+ sizeof(struct smb_setup), 0);
-    
+    memcpy( m_uploadbuffer + sizeof(struct smb_header)+ data_length, "aaaa", 4);
+
+
+    return smb_send(sizeof(struct smb_header)+ data_length + 4, 0);
+
 
 }
 int SMB::smb_send_and_recv(){
@@ -274,6 +292,10 @@ int SMB::smb_send_and_recv(){
     if(h)
     {
 //        printWorkGroup(h);
+        puts("Saving the challnege key");
+        memcpy(this->m_connection.challenge, h->bytes , sizeof(this->m_connection.challenge));
+//        this->m_connection.session_key = h->session_key;
+
         return 1;
     }
     

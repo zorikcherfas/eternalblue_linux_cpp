@@ -55,8 +55,8 @@ public:
         memset(this->m_uploadbuffer, 0, sizeof(this->m_uploadbuffer));
         memset(&this->m_connection, 0, sizeof(this->m_connection));
         
-        this->m_connection.user = strdup("zorik");
-        this->m_connection.domain = strdup("someDomain");
+        this->m_connection.user = strdup("ZORIKC-PC");
+        this->m_connection.domain = strdup("WORKGROUP");
         this->initDefaultConnectionState();
 
     }
@@ -95,7 +95,7 @@ private:
                  size_t upload_size);
     void smb_format_message( struct smb_header *h,
                             unsigned char cmd, size_t len);
-    bool smb_format_setup(struct smb_setup *msg);
+    int smb_format_setup(struct smb_setup *msg);
     int smb_recv_message(void **msg);
     
     void printWorkGroup(struct smb_negotiate_response *h);
