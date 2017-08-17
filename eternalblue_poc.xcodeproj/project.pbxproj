@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		65D964731F378EF600BD8DE7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65D964721F378EF600BD8DE7 /* main.cpp */; };
 		65D9647B1F378F3300BD8DE7 /* packetDriver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65D964791F378F3300BD8DE7 /* packetDriver.cpp */; };
-		65D9647E1F378F8700BD8DE7 /* Frame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65D9647C1F378F8700BD8DE7 /* Frame.cpp */; };
-		65D964811F37903200BD8DE7 /* Scanner.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65D9647F1F37903200BD8DE7 /* Scanner.cpp */; };
 		65D964841F37907D00BD8DE7 /* Payload.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65D964821F37907D00BD8DE7 /* Payload.cpp */; };
 		65D964881F37A46D00BD8DE7 /* smbHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 65D964861F37A46D00BD8DE7 /* smbHeader.cpp */; };
 /* End PBXBuildFile section */
@@ -32,10 +30,6 @@
 		65D964721F378EF600BD8DE7 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		65D964791F378F3300BD8DE7 /* packetDriver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = packetDriver.cpp; sourceTree = "<group>"; };
 		65D9647A1F378F3300BD8DE7 /* packetDriver.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = packetDriver.hpp; sourceTree = "<group>"; };
-		65D9647C1F378F8700BD8DE7 /* Frame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Frame.cpp; sourceTree = "<group>"; };
-		65D9647D1F378F8700BD8DE7 /* Frame.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Frame.hpp; sourceTree = "<group>"; };
-		65D9647F1F37903200BD8DE7 /* Scanner.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scanner.cpp; sourceTree = "<group>"; };
-		65D964801F37903200BD8DE7 /* Scanner.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Scanner.hpp; sourceTree = "<group>"; };
 		65D964821F37907D00BD8DE7 /* Payload.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Payload.cpp; sourceTree = "<group>"; };
 		65D964831F37907D00BD8DE7 /* Payload.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Payload.hpp; sourceTree = "<group>"; };
 		65D964861F37A46D00BD8DE7 /* smbHeader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = smbHeader.cpp; sourceTree = "<group>"; };
@@ -76,10 +70,6 @@
 				65D964721F378EF600BD8DE7 /* main.cpp */,
 				65D964791F378F3300BD8DE7 /* packetDriver.cpp */,
 				65D9647A1F378F3300BD8DE7 /* packetDriver.hpp */,
-				65D9647C1F378F8700BD8DE7 /* Frame.cpp */,
-				65D9647D1F378F8700BD8DE7 /* Frame.hpp */,
-				65D9647F1F37903200BD8DE7 /* Scanner.cpp */,
-				65D964801F37903200BD8DE7 /* Scanner.hpp */,
 				65D964821F37907D00BD8DE7 /* Payload.cpp */,
 				65D964831F37907D00BD8DE7 /* Payload.hpp */,
 			);
@@ -152,9 +142,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65D9647E1F378F8700BD8DE7 /* Frame.cpp in Sources */,
 				65D964731F378EF600BD8DE7 /* main.cpp in Sources */,
-				65D964811F37903200BD8DE7 /* Scanner.cpp in Sources */,
 				65D964841F37907D00BD8DE7 /* Payload.cpp in Sources */,
 				65D9647B1F378F3300BD8DE7 /* packetDriver.cpp in Sources */,
 				65D964881F37A46D00BD8DE7 /* smbHeader.cpp in Sources */,
@@ -286,6 +274,7 @@
 				65D964781F378EF600BD8DE7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

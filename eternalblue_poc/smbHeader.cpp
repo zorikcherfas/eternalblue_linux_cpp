@@ -99,19 +99,19 @@ int SMB::smb_format_setup(struct smb_setup *setup)
     
     size_t totalLentgh = 0;
     char *p = setup->bytes;
-    unsigned char lm_hash[21];
-    unsigned char lm[24];
-    unsigned char nt_hash[21];
-    unsigned char nt[24];
+
+    unsigned char lm[1];
+
+//    unsigned char nt[1];
     
     memset(setup, 0 , sizeof(struct smb_setup));
     memset(&lm, 0 , sizeof(lm) );
-    memset(&lm, 0 , sizeof(lm) );
+//    memset(&nt, 0 , sizeof(nt) );
 
-    size_t byte_count = sizeof(lm) + sizeof(nt);
-    byte_count += strlen(this->m_connection.user) + strlen(this->m_connection.domain);
-    byte_count += strlen(OS) + strlen(CLIENTNAME) + 4; /* 4 null chars */
-    if(byte_count > sizeof(setup->bytes))
+    setup->byte_count = sizeof(lm) ;//+ sizeof(nt);
+    setup->byte_count += strlen(this->m_connection.user) + 1 + strlen(this->m_connection.domain)+ 1; /* 2 null chars */
+//    setup->byte_count += strlen(OS) + strlen(CLIENTNAME) + 4; /* 4 null chars */
+    if(setup->byte_count > sizeof(setup->bytes))
     {
         puts("CURLE_FILESIZE_EXCEEDED");
         return false;
@@ -124,27 +124,35 @@ int SMB::smb_format_setup(struct smb_setup *setup)
 //    Curl_ntlm_core_mk_lm_hash(conn->data, conn->passwd, lm_hash);
 //    Curl_ntlm_core_lm_resp(lm_hash, smbc->challenge, lm);
 
-    memset(nt, 0, sizeof(nt));
+
     setup->word_count = SMB_WC_SETUP_ANDX;
     setup->andx.command = SMB_COM_NO_ANDX_COMMAND;
     setup->max_buffer_size = smb_swap16(MAX_MESSAGE_SIZE);
     setup->max_mpx_count = smb_swap16(1);
     setup->vc_number = smb_swap16(1);
     setup->session_key = smb_swap32(this->m_connection.session_key);
-    setup->capabilities = smb_swap32(SMB_CAP_LARGE_FILES);
+    setup->capabilities = smb_swap32(SMB_CAP_LARGE_FILES) | smb_swap32(SMB_FLAGS2_UNICODE_STRINGS);
     setup->lengths[0] = smb_swap16(sizeof(lm));
-    setup->lengths[1] = smb_swap16(sizeof(nt));
+    setup->lengths[1] =  0 ;//smb_swap16(sizeof(nt));
     memcpy(p, lm, sizeof(lm));
     p += sizeof(lm);
-    memcpy(p, nt, sizeof(nt));
-    p += sizeof(nt);
+//    memcpy(p, nt, sizeof(nt));
+//    p += sizeof(nt);
+    memcpy(p, m_connection.user, strlen(this->m_connection.user) );
+    p += sizeof(this->m_connection.user) + 1;
+    memcpy(p, m_connection.domain, strlen(this->m_connection.domain));
+    p += sizeof(this->m_connection.domain) + 1;
 
-    byte_count = p - setup->bytes;
-    setup->byte_count = smb_swap16((unsigned short)byte_count);
+//    setup->byte_count = ((unsigned short)byte_count);
+
+//    byte_count = p - setup->bytes;
+//    setup->byte_count = smb_swap16((unsigned short)byte_count);
+//    setup->byte_count = ((unsigned short)byte_count);
+
     
+    totalLentgh = sizeof(struct smb_setup) - sizeof(setup->bytes) + setup->byte_count;
     
-    totalLentgh = sizeof(struct smb_setup) - sizeof(setup->bytes) + byte_count;
-    printf("setup size is %d\n",(int)totalLentgh );
+    printf("setup size is %d\n" ,(int)totalLentgh );
     return (int)totalLentgh;
 //    return smb_send_message(conn, SMB_COM_SETUP_ANDX, &msg,
 //                            sizeof(msg) - sizeof(msg.bytes) + byte_count);
@@ -263,14 +271,14 @@ int SMB:: smb_send_setup(){
 
     data_length = smb_format_setup(&setup);
     smb_format_message(&h,
-                       SMB_COM_SETUP_ANDX, data_length + 4);
+                       SMB_COM_SETUP_ANDX, data_length );
     
     memcpy(m_uploadbuffer,&h, sizeof(struct smb_header));
     memcpy( m_uploadbuffer + sizeof(struct smb_header), &setup, sizeof(struct smb_setup));
-    memcpy( m_uploadbuffer + sizeof(struct smb_header)+ data_length, "aaaa", 4);
+//    memcpy( m_uploadbuffer + sizeof(struct smb_header)+ data_length, "aaaa", 4);
 
 
-    return smb_send(sizeof(struct smb_header)+ data_length + 4, 0);
+    return smb_send(sizeof(struct smb_header)+ data_length, 0);
 
 
 }

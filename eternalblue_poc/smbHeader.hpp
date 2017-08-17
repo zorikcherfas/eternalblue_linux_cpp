@@ -55,7 +55,7 @@ public:
         memset(this->m_uploadbuffer, 0, sizeof(this->m_uploadbuffer));
         memset(&this->m_connection, 0, sizeof(this->m_connection));
         
-        this->m_connection.user = strdup("ZORIKC-PC");
+        this->m_connection.user = strdup("ZORIK-PC");
         this->m_connection.domain = strdup("WORKGROUP");
         this->initDefaultConnectionState();
 
